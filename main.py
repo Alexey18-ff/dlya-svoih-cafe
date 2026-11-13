@@ -372,6 +372,7 @@ def build_app() -> web.Application:
     app.router.add_post("/api/admin/open", api_admin_open)
     return app
 
+
 async def main():
     logging.basicConfig(level=logging.INFO)
     db.init()
@@ -396,3 +397,7 @@ async def main():
     else:
         log.warning("BOT_TOKEN не задан — работает только веб-часть (DEV_MODE).")
         await asyncio.Event().wait()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
