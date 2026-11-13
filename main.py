@@ -372,7 +372,6 @@ def build_app() -> web.Application:
     app.router.add_post("/api/admin/open", api_admin_open)
     return app
 
-
 async def main():
     logging.basicConfig(level=logging.INFO)
     db.init()
@@ -381,7 +380,6 @@ async def main():
     await runner.setup()
     await web.TCPSite(runner, "0.0.0.0", config.PORT).start()
     log.info("Web server on :%s", config.PORT)
-    
     if bot:
         try:
             me = await bot.get_me()
@@ -396,8 +394,5 @@ async def main():
             log.warning("Веб-сервер продолжает работать, но бот в режиме ожидания.")
             await asyncio.Event().wait()
     else:
-        log.warning("BOT_TOKEN не задан — работает только веб-часть.")
+        log.warning("BOT_TOKEN не задан — работает только веб-часть (DEV_MODE).")
         await asyncio.Event().wait()
-
-if __name__ == "__main__":
-    asyncio.run(main())
