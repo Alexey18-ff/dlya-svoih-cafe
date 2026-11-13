@@ -49,7 +49,7 @@ def order_text(o: dict) -> str:
         lines.append(f"• {esc(i['name'])} × {i['qty']} — {money(i['price'] * i['qty'])}")
     lines += ["", f"💰 <b>Итого: {money(o['total'])}</b>", ""]
     lines.append("🚚 <b>Доставка</b>: " + esc(o["address"]) if o["type"] == "delivery" else "🏃 <b>Самовывоз</b>")
-    lines.appчend(f"👤 {esc(o['name'])}")
+    lines.append(f"👤 {esc(o['name'])}")
     lines.append(f"📞 {esc(o['phone'])}")
     if o["comment"]:
         lines.append(f"💬 {esc(o['comment'])}")
