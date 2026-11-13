@@ -381,17 +381,23 @@ async def main():
     await runner.setup()
     await web.TCPSite(runner, "0.0.0.0", config.PORT).start()
     log.info("Web server on :%s", config.PORT)
+    
     if bot:
-        me = await bot.get_me()
-        app["bot_username"] = me.username
-        if config.WEBAPP_URL:
-            await bot.set_chat_menu_button(menu_button=MenuButtonWebApp(
-                text="Меню", web_app=WebAppInfo(url=config.WEBAPP_URL + "/")))
-        await dp.start_polling(bot)
+        try:
+            me = await bot.get_me()
+            app["bot_username"] = me.username
+            log.info("Бот успешно авторизован как @%s", me.username)
+            if config.WEBAPP_URL:
+                await bot.set_chat_menu_button(menu_button=MenuButtonWebApp(
+                    text="Меню", web_app=WebAppInfo(url=config.WEBAPP_URL + "/")))
+            await dp.start_polling(bot)
+        except Exception as e:
+            log.error("Ошибка при подключении к Telegram (проверьте BOT_TOKEN): %s", e)
+            log.warning("Веб-сервер продолжает работать, но бот в режиме ожидания.")
+            await asyncio.Event().wait()
     else:
-        log.warning("BOT_TOKEN не задан — работает только веб-часть (DEV_MODE).")
+        log.warning("BOT_TOKEN не задан — работает только веб-часть.")
         await asyncio.Event().wait()
-
 
 if __name__ == "__main__":
     asyncio.run(main())
