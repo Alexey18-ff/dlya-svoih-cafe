@@ -17,7 +17,7 @@ import db
 from auth import check_init_data
 
 log = logging.getLogger("cafe")
-WEB_DIR = Path(__file__).parent / "webapp"
+WEB_DIR = Path(__file__).parent
 
 bot = Bot(config.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML)) if config.BOT_TOKEN else None
 dp = Dispatcher()
